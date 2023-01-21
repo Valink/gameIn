@@ -1,7 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
+using TMPro;
 using UnityEngine;
 
 public class Satellite : MonoBehaviour
@@ -14,6 +11,7 @@ public class Satellite : MonoBehaviour
     [SerializeField] GameObject sonde;
 
     [SerializeField] Sprite spriteDesactivated;
+
     [SerializeField] Sprite spriteActivated;
 
     SpriteRenderer spriteR;
@@ -22,13 +20,20 @@ public class Satellite : MonoBehaviour
 
     bool isActif = false;
 
+    [SerializeField] private TMP_Text nameText;
+
     Rigidbody2D rb;
+
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         spriteR = GetComponent<SpriteRenderer>();
-
         orderActual = Order.Desactivated;
+    }
+
+    public void Init()
+    {
+        nameText.text = name;
     }
 
     void Update()
