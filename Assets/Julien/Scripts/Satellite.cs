@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Satellite : MonoBehaviour
 {
-    enum Order { Desactivated, Idle, Attack, Rapatrier, Aimante }
+    enum Order { Desactivated, DesactivatedMove, Idle, Attack, Rapatrier, Aimante }
     [SerializeField] Order orderActual;
 
     [SerializeField] float speed;
@@ -31,9 +31,11 @@ public class Satellite : MonoBehaviour
         orderActual = Order.Desactivated;
     }
 
-    public void Init()
+    public void Init(GameObject player)
     {
         nameText.text = name;
+        sonde = player;
+        LookToward(sonde);
     }
 
     void Update()
@@ -46,6 +48,11 @@ public class Satellite : MonoBehaviour
         Desactivated();
         Idle();
         Aimante();
+
+        if (orderActual == Order.Desactivated)
+        {
+            transform.position = Vector3.Lerp(transform.position, Vector3.zero, 0.1f * Time.deltaTime);
+        }
     }
 
     public void Activate()
@@ -61,8 +68,13 @@ public class Satellite : MonoBehaviour
 
         isActif = true;
         Activate();
-        transform.rotation = Quaternion.LookRotation(transform.forward, sonde.transform.position - transform.position);
+        LookToward(sonde);
         rb.velocity = transform.up * speed * Time.deltaTime;
+    }
+
+    public void LookToward(GameObject target)
+    {
+        transform.rotation = Quaternion.LookRotation(transform.forward, target.transform.position - transform.position);
     }
 
     public void Attack()
@@ -108,6 +120,11 @@ public class Satellite : MonoBehaviour
         if (collision.tag == "Sonde" && orderActual == Order.Rapatrier)
         {
             orderActual = Order.Idle;
+        }
+
+        if (collision.tag == "stopZone" && orderActual == Order.Desactivated)
+        {
+            orderActual = Order.DesactivatedMove;
         }
 
         if (collision.tag == "Enemy" && orderActual == Order.Attack)
