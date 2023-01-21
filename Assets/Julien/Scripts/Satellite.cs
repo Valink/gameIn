@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -5,21 +6,27 @@ using UnityEngine;
 
 public class Satellite : MonoBehaviour
 {
-    enum Order { Desactivated, Attack, Rapatrier }
+    enum Order { Desactivated, Idle, Attack, Rapatrier, Aimante }
     [SerializeField] Order orderActual;
 
     [SerializeField] float speed;
 
     [SerializeField] GameObject sonde;
 
-    [SerializeField] GameObject enemy;
+    [SerializeField] Sprite spriteDesactivated;
+    [SerializeField] Sprite spriteActivated;
 
+    SpriteRenderer spriteR;
 
+    Enemy enemy;
+
+    bool isActif = false;
 
     Rigidbody2D rb;
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        spriteR = GetComponent<SpriteRenderer>();
 
         orderActual = Order.Desactivated;
     }
@@ -32,42 +39,77 @@ public class Satellite : MonoBehaviour
         Rapatrier();
         Attack();
         Desactivated();
+        Idle();
+        Aimante();
+    }
+
+    public void Activate()
+    {
+        if (!isActif) return;
+
+        spriteR.sprite = spriteActivated;
     }
 
     public void Rapatrier()
     {
         if (orderActual != Order.Rapatrier) return;
 
-        transform.rotation = Quaternion.LookRotation(transform.forward, transform.position - sonde.transform.position);
-        rb.velocity = -transform.up * speed * Time.deltaTime;
+        isActif = true;
+        Activate();
+        transform.rotation = Quaternion.LookRotation(transform.forward, sonde.transform.position - transform.position);
+        rb.velocity = transform.up * speed * Time.deltaTime;
     }
 
     public void Attack()
     {
-        if (orderActual != Order.Attack || enemy == null) return;
+        if (orderActual != Order.Attack) return;
 
-        transform.rotation = Quaternion.LookRotation(transform.forward, transform.position - enemy.transform.position);
-        rb.velocity = -transform.up * speed * Time.deltaTime;
+        enemy = EnemyManager.instance.GetCloseEnemy();
+
+        if (enemy == null)
+        {
+            orderActual = Order.Idle;
+            return;
+        }
+
+        transform.rotation = Quaternion.LookRotation(transform.forward, enemy.transform.position - transform.position);
+        rb.velocity = transform.up * speed * Time.deltaTime;
     }
 
     public void Desactivated()
     {
         if (orderActual != Order.Desactivated) return;
 
+        spriteR.sprite = spriteDesactivated;
+        rb.velocity = Vector2.zero;
+    }
+
+    public void Idle()
+    {
+        if (orderActual != Order.Idle) return;
+
+        rb.velocity = Vector2.zero;
+    }
+
+    public void Aimante()
+    {
+        if (orderActual != Order.Aimante) return;
+
         rb.velocity = Vector2.zero;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "Sonde")
+        if (collision.tag == "Sonde" && orderActual == Order.Rapatrier)
         {
-            orderActual = Order.Desactivated;
+            orderActual = Order.Idle;
         }
 
-        if (collision.tag == "Enemy")
+        if (collision.tag == "Enemy" && orderActual == Order.Attack)
         {
-            orderActual = Order.Desactivated;
-            Destroy(enemy);
+            EnemyManager.instance.RemoveEnemy(enemy);
+            enemy.Explode();
+            Destroy(enemy.gameObject);
         }
     }
 }
