@@ -14,7 +14,10 @@ public class Satellite : MonoBehaviour
 
     [SerializeField] Sprite spriteActivated;
 
+    [SerializeField] float desactivateRotation;
+
     SpriteRenderer spriteR;
+    GameObject spriteGMB;
 
     Enemy enemy;
 
@@ -27,8 +30,9 @@ public class Satellite : MonoBehaviour
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        spriteR = GetComponent<SpriteRenderer>();
-        orderActual = Order.Desactivated;
+        spriteR = GetComponentInChildren<SpriteRenderer>();
+        spriteGMB = spriteR.gameObject; ;
+        orderActual = Order.DesactivatedMove;
     }
 
     public void Init(GameObject player)
@@ -41,24 +45,32 @@ public class Satellite : MonoBehaviour
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Z)) orderActual = Order.Rapatrier;
-        if (Input.GetKeyDown(KeyCode.A)) orderActual = Order.Attack;
+        if (Input.GetKeyDown(KeyCode.A) && isActif) orderActual = Order.Attack;
 
         Rapatrier();
         Attack();
         Desactivated();
+        DesactivatedMove();
         Idle();
         Aimante();
 
-        if (orderActual == Order.Desactivated)
-        {
-            transform.position = Vector3.Lerp(transform.position, Vector3.zero, 0.1f * Time.deltaTime);
-        }
+
+    }
+
+    public void DesactivatedMove()
+    {
+        if (orderActual != Order.DesactivatedMove) return;
+        
+        transform.position = Vector3.Lerp(transform.position, Vector3.zero, 0.1f * Time.deltaTime);
+
+        spriteGMB.transform.Rotate(new Vector3(0, 0, desactivateRotation));
     }
 
     public void Activate()
     {
         if (!isActif) return;
 
+        spriteGMB.transform.localRotation = Quaternion.Euler(0, 0, 0);
         spriteR.sprite = spriteActivated;
     }
 
@@ -66,8 +78,6 @@ public class Satellite : MonoBehaviour
     {
         if (orderActual != Order.Rapatrier) return;
 
-        isActif = true;
-        Activate();
         LookToward(sonde);
         rb.velocity = transform.up * speed * Time.deltaTime;
     }
@@ -81,7 +91,7 @@ public class Satellite : MonoBehaviour
     {
         if (orderActual != Order.Attack) return;
 
-        enemy = EnemyManager.instance.GetCloseEnemy();
+        enemy = EnemyManager.instance.GetCloseEnemy(this);
 
         if (enemy == null)
         {
@@ -97,6 +107,7 @@ public class Satellite : MonoBehaviour
     {
         if (orderActual != Order.Desactivated) return;
 
+        spriteGMB.transform.Rotate(new Vector3(0, 0, desactivateRotation));
         spriteR.sprite = spriteDesactivated;
         rb.velocity = Vector2.zero;
     }
@@ -115,16 +126,18 @@ public class Satellite : MonoBehaviour
         rb.velocity = Vector2.zero;
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.tag == "Sonde" && orderActual == Order.Rapatrier)
         {
             orderActual = Order.Idle;
+            isActif = true;
+            Activate();
         }
 
-        if (collision.tag == "stopZone" && orderActual == Order.Desactivated)
+        if (collision.tag == "stopZone" && orderActual == Order.DesactivatedMove)
         {
-            orderActual = Order.DesactivatedMove;
+            orderActual = Order.Desactivated;
         }
 
         if (collision.tag == "Enemy" && orderActual == Order.Attack)
@@ -132,6 +145,7 @@ public class Satellite : MonoBehaviour
             EnemyManager.instance.RemoveEnemy(enemy);
             enemy.Explode();
             Destroy(enemy.gameObject);
+            Destroy(this.gameObject);
         }
     }
 }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class EnemyManager : MonoBehaviour
@@ -8,6 +9,9 @@ public class EnemyManager : MonoBehaviour
     [SerializeField] GameObject sonde;
 
     public static EnemyManager instance;
+
+    Vector3 giz1;
+    Vector3 giz2;
     
     void Awake()
     {
@@ -26,7 +30,7 @@ public class EnemyManager : MonoBehaviour
         enemyList.Remove(enemy);
     }
 
-    public Enemy GetCloseEnemy()
+    public Enemy GetCloseEnemy(Satellite satellite)
     {
         if (enemyList.Count == 0) return null;
 
@@ -35,15 +39,24 @@ public class EnemyManager : MonoBehaviour
 
         foreach (Enemy enemy in enemyList)
         {
-            if (enemy == null) break;
-            float distanceToCheck = Mathf.Abs(sonde.transform.position.magnitude - enemy.transform.position.magnitude);
-            if (distanceToCheck < distance)
+            
+            if (enemy != null)
             {
-                distance = distanceToCheck;
-                closestEnemy = enemy;
+                float distanceToCheck = (enemy.transform.position - satellite.transform.position).magnitude;
+                if (distanceToCheck < distance)
+                {
+                    distance = distanceToCheck;
+                    closestEnemy = enemy;
+                }
             }
         }
 
         return closestEnemy;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawLine(giz1, giz2);
     }
 }
