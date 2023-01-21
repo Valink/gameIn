@@ -17,8 +17,6 @@ public class TypingController : MonoBehaviour
 
     private void OnValueChanged(string typedWord)
     {
-        Debug.Log(typedWord);
-
         if (TypedWordMatchATargetWord(typedWord))
         {
             input.text = "";
