@@ -37,8 +37,8 @@ public class SpawnerBehaviour : MonoBehaviour
         var xOffset = width / 2;
         var yOffset = height / 2;
 
-        // var spawnableSize = 1;
-        var spawnableSize = 0;
+        var spawnableSize = 1;
+        // var spawnableSize = 0;
 
         var position = Vector2.zero;
 
@@ -72,7 +72,7 @@ public class SpawnerBehaviour : MonoBehaviour
         {
             var f = Instantiate(friend, position, Quaternion.identity);
             f.name = GetRandomSpaceName();
-            f.GetComponent<Satellite>().Init();
+            f.GetComponent<Satellite>().Init(player);
         }
     }
 
