@@ -47,6 +47,8 @@ public class Satellite : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Z)) orderActual = Order.Rapatrier;
         if (Input.GetKeyDown(KeyCode.A) && isActif) orderActual = Order.Attack;
 
+
+
         Rapatrier();
         Attack();
         Desactivated();
@@ -80,6 +82,16 @@ public class Satellite : MonoBehaviour
 
         LookToward(sonde);
         rb.velocity = transform.up * speed * Time.deltaTime;
+    }
+
+    public void InputRapatrier()
+    {
+        orderActual = Order.Rapatrier;
+    }
+
+    public void InputAttack()
+    {
+        orderActual = Order.Attack;
     }
 
     public void LookToward(GameObject target)

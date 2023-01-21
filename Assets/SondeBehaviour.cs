@@ -20,7 +20,7 @@ public class SondeBehaviour : MonoBehaviour
             case "ATTACK":
                 foreach (Satellite enrolledFriend in enrolledFriends)
                 {
-                    enrolledFriend.Attack();
+                    enrolledFriend.InputAttack();
                 }
                 break;
             default:
@@ -36,6 +36,6 @@ public class SondeBehaviour : MonoBehaviour
         Debug.Log(a);
         var b = a.GetComponent<Satellite>();
         Debug.Log(b);
-        a.Rapatrier();
+        a.InputRapatrier();
     }
 }

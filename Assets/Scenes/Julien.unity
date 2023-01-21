@@ -156,7 +156,19 @@ MonoBehaviour:
   friendNames: []
   typedWordMatchAFriendNameEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4526464591320876716}
+        m_TargetAssemblyTypeName: SondeBehaviour, Assembly-CSharp
+        m_MethodName: EnrollFriend
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   actions:
   - Attaquer
   - Rapatrier
@@ -164,7 +176,19 @@ MonoBehaviour:
   - Soigner
   typedWordMatchAnActionEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4526464591320876716}
+        m_TargetAssemblyTypeName: SondeBehaviour, Assembly-CSharp
+        m_MethodName: TriggerAction
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!4 &138803652
 Transform:
   m_ObjectHideFlags: 0
@@ -234,6 +258,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6307400555362825106, guid: 864b3919a1a620d46a0d7608fa16e3b0, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 4526464591320876715}
     - target: {fileID: 8143096268799266331, guid: 864b3919a1a620d46a0d7608fa16e3b0, type: 3}
       propertyPath: m_Name
       value: Enemy (2)
@@ -295,6 +323,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6307400555362825106, guid: 864b3919a1a620d46a0d7608fa16e3b0, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 4526464591320876715}
     - target: {fileID: 8143096268799266331, guid: 864b3919a1a620d46a0d7608fa16e3b0, type: 3}
       propertyPath: m_Name
       value: Enemy (6)
@@ -590,6 +622,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6307400555362825106, guid: 864b3919a1a620d46a0d7608fa16e3b0, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 4526464591320876715}
     - target: {fileID: 8143096268799266331, guid: 864b3919a1a620d46a0d7608fa16e3b0, type: 3}
       propertyPath: m_Name
       value: Enemy (3)
@@ -651,6 +687,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6307400555362825106, guid: 864b3919a1a620d46a0d7608fa16e3b0, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 4526464591320876715}
     - target: {fileID: 8143096268799266331, guid: 864b3919a1a620d46a0d7608fa16e3b0, type: 3}
       propertyPath: m_Name
       value: Enemy (4)
@@ -712,6 +752,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6307400555362825106, guid: 864b3919a1a620d46a0d7608fa16e3b0, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 4526464591320876715}
     - target: {fileID: 8143096268799266331, guid: 864b3919a1a620d46a0d7608fa16e3b0, type: 3}
       propertyPath: m_Name
       value: Enemy (9)
@@ -924,6 +968,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6307400555362825106, guid: 864b3919a1a620d46a0d7608fa16e3b0, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 4526464591320876715}
     - target: {fileID: 8143096268799266331, guid: 864b3919a1a620d46a0d7608fa16e3b0, type: 3}
       propertyPath: m_Name
       value: Enemy (1)
@@ -997,6 +1045,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6307400555362825106, guid: 864b3919a1a620d46a0d7608fa16e3b0, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 4526464591320876715}
     - target: {fileID: 8143096268799266331, guid: 864b3919a1a620d46a0d7608fa16e3b0, type: 3}
       propertyPath: m_Name
       value: Enemy (5)
@@ -1296,6 +1348,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6307400555362825106, guid: 864b3919a1a620d46a0d7608fa16e3b0, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 4526464591320876715}
     - target: {fileID: 8143096268799266331, guid: 864b3919a1a620d46a0d7608fa16e3b0, type: 3}
       propertyPath: m_Name
       value: Enemy (7)
@@ -1599,10 +1655,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2ce2136753389143bce2af85b01db3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 4526464591320876715}
-  ennemi: {fileID: 8143096268799266331, guid: 864b3919a1a620d46a0d7608fa16e3b0, type: 3}
-  friend: {fileID: 4526464592217640453, guid: b898c0e9866134744b535325f4a5a873, type: 3}
-  playerCamera: {fileID: 1399782802}
+  player: {fileID: 4526464591320876716}
+  ennemiPrefab: {fileID: 8143096268799266331, guid: 864b3919a1a620d46a0d7608fa16e3b0, type: 3}
+  friendPrefab: {fileID: 4526464592217640453, guid: b898c0e9866134744b535325f4a5a873, type: 3}
+  spawnedFriends: []
+  gameCamera: {fileID: 1399782802}
+  keywordsDetector: {fileID: 138803651}
 --- !u!4 &1932057752
 Transform:
   m_ObjectHideFlags: 0
@@ -1672,6 +1730,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6307400555362825106, guid: 864b3919a1a620d46a0d7608fa16e3b0, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 4526464591320876715}
     - target: {fileID: 8143096268799266331, guid: 864b3919a1a620d46a0d7608fa16e3b0, type: 3}
       propertyPath: m_Name
       value: Enemy (8)
@@ -1831,6 +1893,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6307400555362825106, guid: 864b3919a1a620d46a0d7608fa16e3b0, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 4526464591320876715}
     - target: {fileID: 8143096268799266331, guid: 864b3919a1a620d46a0d7608fa16e3b0, type: 3}
       propertyPath: m_Name
       value: Enemy
@@ -1903,6 +1969,20 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 5691346442203006763, guid: 8429d7657ca2f5d4eaa30ad1306c607c, type: 3}
   m_PrefabInstance: {fileID: 8082416513587413376}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &4526464591320876716
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4526464591320876715}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d74f9d942df47b44b72d69e43ae51f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  friends: []
+  enrolledFriends: []
 --- !u!1001 &8082416513587413376
 PrefabInstance:
   m_ObjectHideFlags: 0
