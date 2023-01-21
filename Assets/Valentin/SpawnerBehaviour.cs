@@ -77,7 +77,7 @@ public class SpawnerBehaviour : MonoBehaviour
 
             f.name = GetRandomSpaceName();
 
-            s.Init(player);
+            s.Init(player.gameObject);
 
             keywordsDetector.friendNames.Add(f.name); // TODO rm from list
 
