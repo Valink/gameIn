@@ -35,7 +35,8 @@ public class TypedWordDetector : MonoBehaviour
         if (IsInListCasseInsensitive(typedWord, actions))
         {
             TypedWordMatchATargetWord();
-            typedWordMatchAFriendNameEvent.Invoke(typedWord);
+            Debug.Log($"Action: {typedWord.ToUpper()}");
+            typedWordMatchAnActionEvent.Invoke(typedWord.ToUpper());
         }
     }
 
@@ -44,7 +45,8 @@ public class TypedWordDetector : MonoBehaviour
         if (IsInListCasseInsensitive(typedWord, friendNames.ToArray()))
         {
             TypedWordMatchATargetWord();
-            typedWordMatchAFriendNameEvent.Invoke(typedWord);
+            Debug.Log($"Satellite: {typedWord.ToUpper()}");
+            typedWordMatchAFriendNameEvent.Invoke(typedWord.ToUpper());
         }
     }
 
@@ -62,7 +64,7 @@ public class TypedWordDetector : MonoBehaviour
     {
         foreach (var s in strings)
         {
-            if (typedWord.ToLower() == s.ToLower())
+            if (typedWord.ToUpper() == s.ToUpper())
             {
                 return true;
             }

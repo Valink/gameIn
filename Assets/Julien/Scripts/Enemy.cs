@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
@@ -30,5 +31,10 @@ public class Enemy : MonoBehaviour
     public void LookToward(GameObject target)
     {
         transform.rotation = Quaternion.LookRotation(transform.forward, target.transform.position - transform.position);
+    }
+
+    internal void Init(GameObject gameObject, object enemyManager)
+    {
+        throw new NotImplementedException();
     }
 }

@@ -8,7 +8,7 @@ public class Satellite : MonoBehaviour
 
     [SerializeField] float speed;
 
-    [SerializeField] GameObject sonde;
+    [SerializeField] SondeBehaviour sonde;
 
     [SerializeField] Sprite spriteDesactivated;
 
@@ -31,17 +31,17 @@ public class Satellite : MonoBehaviour
         orderActual = Order.Desactivated;
     }
 
-    public void Init(GameObject player)
+    public void Init(SondeBehaviour player)
     {
         nameText.text = name;
         sonde = player;
-        LookToward(sonde);
+        LookToward(sonde.transform.position);
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Z)) orderActual = Order.Rapatrier;
-        if (Input.GetKeyDown(KeyCode.A)) orderActual = Order.Attack;
+        // if (Input.GetKeyDown(KeyCode.Z)) orderActual = Order.Rapatrier;
+        // if (Input.GetKeyDown(KeyCode.A)) orderActual = Order.Attack;
 
         Rapatrier();
         Attack();
@@ -68,13 +68,13 @@ public class Satellite : MonoBehaviour
 
         isActif = true;
         Activate();
-        LookToward(sonde);
+        LookToward(sonde.transform.position);
         rb.velocity = transform.up * speed * Time.deltaTime;
     }
 
-    public void LookToward(GameObject target)
+    public void LookToward(Vector3 position)
     {
-        transform.rotation = Quaternion.LookRotation(transform.forward, target.transform.position - transform.position);
+        transform.rotation = Quaternion.LookRotation(transform.forward, position - transform.position);
     }
 
     public void Attack()

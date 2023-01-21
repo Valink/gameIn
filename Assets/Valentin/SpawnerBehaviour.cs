@@ -1,11 +1,13 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class SpawnerBehaviour : MonoBehaviour
 {
-    [SerializeField] GameObject player;
+    [SerializeField] SondeBehaviour player;
     [SerializeField] GameObject ennemiPrefab;
     [SerializeField] GameObject friendPrefab;
+    [SerializeField] List<GameObject> spawnedFriends;
     [SerializeField] Camera gameCamera;
     [SerializeField] TypedWordDetector keywordsDetector;
 
@@ -64,20 +66,28 @@ public class SpawnerBehaviour : MonoBehaviour
         if (UnityEngine.Random.Range(0, 2) == 0)
         {
             var e = Instantiate(ennemiPrefab, position, Quaternion.identity);
-            e.GetComponent<Enemy>().Init(player);
+            e.GetComponent<Enemy>().Init(player.gameObject);
         }
         else
         {
             var f = Instantiate(friendPrefab, position, Quaternion.identity);
+            var s = f.GetComponent<Satellite>();
+
+            spawnedFriends.Add(f);
+
             f.name = GetRandomSpaceName();
-            f.GetComponent<Satellite>().Init(player);
+
+            s.Init(player);
+
             keywordsDetector.friendNames.Add(f.name); // TODO rm from list
+
+            player.AddFriend(s);
         }
     }
 
     private string GetRandomSpaceName()
     {
-        var spaceShipNames = new string[] { "Cosmosat", "Starlink", "Skylark", "Orbitalis", "Galaxia", "Lunarix", "Skywatch", "Solaria", "Stellaris", "Cosmicon", "Spacehawk", "Skyseeker", "Starfinder", "Orbitalstar", "Galaxar", "Lunarion", "Skygazer", "Solarscan", "Stellaright", "Cosmovoyage", "Spacebeam", "Skydome", "Starstream", "Orbitalbeam", "Galaxylight", "Lunarview", "Skyobserver", "Solarview", "Stellarview", "Cosmovision", "Spaceprobe", "Skytracker", "Starnavigator", "Orbitaltracker", "Galaxynav", "Lunarprobe", "Skyexplorer", "Solarprobe", "Stellarprobe", "Cosmoseeker", "Spaceguard", "Skywatchman", "Starpatrol", "Orbitalguard", "Galaxysentry", "Lunarwatch", "Skymonitor", "Solarsentry", "Stellarwatch", "Cosmoguard", "Spacehawk", "Skyseeker", "Starfinder", "Orbitalstar", "Galaxar", "Lunarion", "Skygazer", "Solarscan", "Stellaright", "Cosmovoyage", "Spacebeam", "Skydome", "Starstream", "Orbitalbeam", "Galaxylight", "Lunarview", "Skyobserver", "Solarview", "Stellarview", "Cosmovision", "Spaceprobe", "Skytracker", "Starnavigator", "Orbitaltracker", "Galaxynav", "Lunarprobe", "Skyexplorer", "Solarprobe", "Stellarprobe", "Cosmoseeker", "Spaceguard", "Skywatchman", "Starpatrol", "Orbitalguard", "Galaxysentry", "Lunarwatch", "Skymonitor", "Solarsentry", "Stellarwatch", "Cosmoguard", "Spacehawk", "Skyseeker", "Starfinder", "Orbitalstar", "Galaxar", "Lunarion", "Skygazer", "Solarscan", "Stellaright", "Cosmovoyage" };
+        var spaceShipNames = new string[] { "COSMOSAT", "STARLINK", "SKYLARK", "ORBITALIS", "GALAXIA", "LUNARIX", "SKYWATCH", "SOLARIA", "STELLARIS", "COSMICON", "SPACEHAWK", "SKYSEEKER", "STARFINDER", "ORBITALSTAR", "GALAXAR", "LUNARION", "SKYGAZER", "SOLARSCAN", "STELLARIGHT", "COSMOVOYAGE", "SPACEBEAM", "SKYDOME", "STARSTREAM", "ORBITALBEAM", "GALAXYLIGHT", "LUNARVIEW", "SKYOBSERVER", "SOLARVIEW", "STELLARVIEW", "COSMOVISION", "SPACEPROBE", "SKYTRACKER", "STARNAVIGATOR", "ORBITALTRACKER", "GALAXYNAV", "LUNARPROBE", "SKYEXPLORER", "SOLARPROBE", "STELLARPROBE", "COSMOSEEKER", "SPACEGUARD", "SKYWATCHMAN", "STARPATROL", "ORBITALGUARD", "GALAXYSENTRY", "LUNARWATCH", "SKYMONITOR", "SOLARSENTRY", "STELLARWATCH", "COSMOGUARD", "SPACEHAWK", "SKYSEEKER", "STARFINDER", "ORBITALSTAR", "GALAXAR", "LUNARION", "SKYGAZER", "SOLARSCAN", "STELLARIGHT", "COSMOVOYAGE", "SPACEBEAM", "SKYDOME", "STARSTREAM", "ORBITALBEAM", "GALAXYLIGHT", "LUNARVIEW", "SKYOBSERVER", "SOLARVIEW", "STELLARVIEW", "COSMOVISION", "SPACEPROBE", "SKYTRACKER", "STARNAVIGATOR", "ORBITALTRACKER", "GALAXYNAV", "LUNARPROBE", "SKYEXPLORER", "SOLARPROBE", "STELLARPROBE", "COSMOSEEKER", "SPACEGUARD", "SKYWATCHMAN", "STARPATROL", "ORBITALGUARD", "GALAXYSENTRY", "LUNARWATCH", "SKYMONITOR", "SOLARSENTRY", "STELLARWATCH", "COSMOGUARD", "SPACEHAWK", "SKYSEEKER", "STARFINDER", "ORBITALSTAR", "GALAXAR", "LUNARION", "SKYGAZER", "SOLARSCAN", "STELLARIGHT", "COSMOVOYAGE" };
         return spaceShipNames[UnityEngine.Random.Range(0, spaceShipNames.Length)];
     }
 }
