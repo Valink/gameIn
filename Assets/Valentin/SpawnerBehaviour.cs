@@ -1,13 +1,15 @@
-using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class SpawnerBehaviour : MonoBehaviour
 {
-    [SerializeField] GameObject player;
-    [SerializeField] GameObject ennemi;
-    [SerializeField] GameObject friend;
-    [SerializeField] Camera playerCamera;
+    [SerializeField] SondeBehaviour player;
+    [SerializeField] GameObject ennemiPrefab;
+    [SerializeField] GameObject friendPrefab;
+    [SerializeField] List<GameObject> spawnedFriends;
+    [SerializeField] Camera gameCamera;
+    [SerializeField] TypedWordDetector keywordsDetector;
 
     void Awake()
     {
@@ -25,8 +27,8 @@ public class SpawnerBehaviour : MonoBehaviour
 
     private void SpawnRadomlyOutsideOfView()
     {
-        var topRightPointPosition = playerCamera.ViewportToWorldPoint(new Vector3(1, 1, 0));
-        var bottomLeftPointPosition = playerCamera.ViewportToWorldPoint(new Vector3(0, 0, 0));
+        var topRightPointPosition = gameCamera.ViewportToWorldPoint(new Vector3(1, 1, 0));
+        var bottomLeftPointPosition = gameCamera.ViewportToWorldPoint(new Vector3(0, 0, 0));
 
         var width = topRightPointPosition.x - bottomLeftPointPosition.x;
         var height = topRightPointPosition.y - bottomLeftPointPosition.y;
@@ -34,31 +36,28 @@ public class SpawnerBehaviour : MonoBehaviour
 
         var randPerimeterValue = UnityEngine.Random.Range(0, perimeter);
 
-        var xOffset = width / 2;
-        var yOffset = height / 2;
+        var xPositionOffset = width / 2;
+        var yPositionOffset = height / 2;
 
         var spawnableSize = 1;
-        // var spawnableSize = 0;
 
         var position = Vector2.zero;
-
-        if (randPerimeterValue <= width) // top
+        if (randPerimeterValue <= width) // is on border top
         {
-            position = new Vector2(randPerimeterValue - xOffset, height / 2 + spawnableSize);
+            position = new Vector2(randPerimeterValue - xPositionOffset, height / 2 + spawnableSize);
         }
-        else if (randPerimeterValue <= width + height) // right
+        else if (randPerimeterValue <= width + height) // is on border right
         {
-            position = new Vector2(width / 2 + spawnableSize, randPerimeterValue - width - yOffset);
+            position = new Vector2(width / 2 + spawnableSize, randPerimeterValue - width - yPositionOffset);
         }
-        else if (randPerimeterValue <= width + height + width) // bottom
+        else if (randPerimeterValue <= width + height + width) // is on border bottom
         {
-            position = new Vector2(randPerimeterValue - width - height - xOffset, -(height / 2 + spawnableSize));
+            position = new Vector2(randPerimeterValue - width - height - xPositionOffset, -(height / 2 + spawnableSize));
         }
-        else // left
+        else // is on border left
         {
-            position = new Vector2(-(width / 2 + spawnableSize), randPerimeterValue - width - height - width - yOffset);
+            position = new Vector2(-(width / 2 + spawnableSize), randPerimeterValue - width - height - width - yPositionOffset);
         }
-
         SpawnEntity(position);
     }
 
@@ -66,19 +65,29 @@ public class SpawnerBehaviour : MonoBehaviour
     {
         if (UnityEngine.Random.Range(0, 2) == 0)
         {
-            Instantiate(ennemi, position, Quaternion.identity);
+            var e = Instantiate(ennemiPrefab, position, Quaternion.identity);
+            e.GetComponent<Enemy>().Init(player.gameObject);
         }
         else
         {
-            var f = Instantiate(friend, position, Quaternion.identity);
+            var f = Instantiate(friendPrefab, position, Quaternion.identity);
+            var s = f.GetComponent<Satellite>();
+
+            spawnedFriends.Add(f);
+
             f.name = GetRandomSpaceName();
-            f.GetComponent<Satellite>().Init(player);
+
+            s.Init(player);
+
+            keywordsDetector.friendNames.Add(f.name); // TODO rm from list
+
+            player.AddFriend(s);
         }
     }
 
     private string GetRandomSpaceName()
     {
-        var spaceShipNames = new string[] { "Cosmosat", "Starlink", "Skylark", "Orbitalis", "Galaxia", "Lunarix", "Skywatch", "Solaria", "Stellaris", "Cosmicon", "Spacehawk", "Skyseeker", "Starfinder", "Orbitalstar", "Galaxar", "Lunarion", "Skygazer", "Solarscan", "Stellaright", "Cosmovoyage", "Spacebeam", "Skydome", "Starstream", "Orbitalbeam", "Galaxylight", "Lunarview", "Skyobserver", "Solarview", "Stellarview", "Cosmovision", "Spaceprobe", "Skytracker", "Starnavigator", "Orbitaltracker", "Galaxynav", "Lunarprobe", "Skyexplorer", "Solarprobe", "Stellarprobe", "Cosmoseeker", "Spaceguard", "Skywatchman", "Starpatrol", "Orbitalguard", "Galaxysentry", "Lunarwatch", "Skymonitor", "Solarsentry", "Stellarwatch", "Cosmoguard", "Spacehawk", "Skyseeker", "Starfinder", "Orbitalstar", "Galaxar", "Lunarion", "Skygazer", "Solarscan", "Stellaright", "Cosmovoyage", "Spacebeam", "Skydome", "Starstream", "Orbitalbeam", "Galaxylight", "Lunarview", "Skyobserver", "Solarview", "Stellarview", "Cosmovision", "Spaceprobe", "Skytracker", "Starnavigator", "Orbitaltracker", "Galaxynav", "Lunarprobe", "Skyexplorer", "Solarprobe", "Stellarprobe", "Cosmoseeker", "Spaceguard", "Skywatchman", "Starpatrol", "Orbitalguard", "Galaxysentry", "Lunarwatch", "Skymonitor", "Solarsentry", "Stellarwatch", "Cosmoguard", "Spacehawk", "Skyseeker", "Starfinder", "Orbitalstar", "Galaxar", "Lunarion", "Skygazer", "Solarscan", "Stellaright", "Cosmovoyage" };
+        var spaceShipNames = new string[] { "COSMOSAT", "STARLINK", "SKYLARK", "ORBITALIS", "GALAXIA", "LUNARIX", "SKYWATCH", "SOLARIA", "STELLARIS", "COSMICON", "SPACEHAWK", "SKYSEEKER", "STARFINDER", "ORBITALSTAR", "GALAXAR", "LUNARION", "SKYGAZER", "SOLARSCAN", "STELLARIGHT", "COSMOVOYAGE", "SPACEBEAM", "SKYDOME", "STARSTREAM", "ORBITALBEAM", "GALAXYLIGHT", "LUNARVIEW", "SKYOBSERVER", "SOLARVIEW", "STELLARVIEW", "COSMOVISION", "SPACEPROBE", "SKYTRACKER", "STARNAVIGATOR", "ORBITALTRACKER", "GALAXYNAV", "LUNARPROBE", "SKYEXPLORER", "SOLARPROBE", "STELLARPROBE", "COSMOSEEKER", "SPACEGUARD", "SKYWATCHMAN", "STARPATROL", "ORBITALGUARD", "GALAXYSENTRY", "LUNARWATCH", "SKYMONITOR", "SOLARSENTRY", "STELLARWATCH", "COSMOGUARD", "SPACEHAWK", "SKYSEEKER", "STARFINDER", "ORBITALSTAR", "GALAXAR", "LUNARION", "SKYGAZER", "SOLARSCAN", "STELLARIGHT", "COSMOVOYAGE", "SPACEBEAM", "SKYDOME", "STARSTREAM", "ORBITALBEAM", "GALAXYLIGHT", "LUNARVIEW", "SKYOBSERVER", "SOLARVIEW", "STELLARVIEW", "COSMOVISION", "SPACEPROBE", "SKYTRACKER", "STARNAVIGATOR", "ORBITALTRACKER", "GALAXYNAV", "LUNARPROBE", "SKYEXPLORER", "SOLARPROBE", "STELLARPROBE", "COSMOSEEKER", "SPACEGUARD", "SKYWATCHMAN", "STARPATROL", "ORBITALGUARD", "GALAXYSENTRY", "LUNARWATCH", "SKYMONITOR", "SOLARSENTRY", "STELLARWATCH", "COSMOGUARD", "SPACEHAWK", "SKYSEEKER", "STARFINDER", "ORBITALSTAR", "GALAXAR", "LUNARION", "SKYGAZER", "SOLARSCAN", "STELLARIGHT", "COSMOVOYAGE" };
         return spaceShipNames[UnityEngine.Random.Range(0, spaceShipNames.Length)];
     }
 }

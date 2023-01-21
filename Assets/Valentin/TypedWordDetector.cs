@@ -1,12 +1,13 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class KeywordsDetector : MonoBehaviour
+public class TypedWordDetector : MonoBehaviour
 {
     [SerializeField] private TMP_InputField input;
 
-    [SerializeField] private string[] friendNames;
+    [SerializeField] public List<string> friendNames;
 
     [SerializeField] public UnityEvent<string> typedWordMatchAFriendNameEvent;
 
@@ -34,16 +35,18 @@ public class KeywordsDetector : MonoBehaviour
         if (IsInListCasseInsensitive(typedWord, actions))
         {
             TypedWordMatchATargetWord();
-            typedWordMatchAFriendNameEvent.Invoke(typedWord);
+            Debug.Log($"Action: {typedWord.ToUpper()}");
+            typedWordMatchAnActionEvent.Invoke(typedWord.ToUpper());
         }
     }
 
     private void TypedWordMatchAFriendNameEvent(string typedWord)
     {
-        if (IsInListCasseInsensitive(typedWord, friendNames))
+        if (IsInListCasseInsensitive(typedWord, friendNames.ToArray()))
         {
             TypedWordMatchATargetWord();
-            typedWordMatchAFriendNameEvent.Invoke(typedWord);
+            Debug.Log($"Satellite: {typedWord.ToUpper()}");
+            typedWordMatchAFriendNameEvent.Invoke(typedWord.ToUpper());
         }
     }
 
@@ -61,7 +64,7 @@ public class KeywordsDetector : MonoBehaviour
     {
         foreach (var s in strings)
         {
-            if (typedWord.ToLower() == s.ToLower())
+            if (typedWord.ToUpper() == s.ToUpper())
             {
                 return true;
             }
