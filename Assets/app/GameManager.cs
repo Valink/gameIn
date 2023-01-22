@@ -4,6 +4,7 @@ using UnityEngine;
 class GameManager : MonoBehaviour
 {
     [SerializeField] private GameObject gameOverVue;
+    [SerializeField] public int Level;
     public static GameManager Instance;
 
     [SerializeField] private TMP_InputField input;   
