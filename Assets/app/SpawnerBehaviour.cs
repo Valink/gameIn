@@ -99,12 +99,16 @@ public class SpawnerBehaviour : MonoBehaviour
 
         foreach (var ennemy in spawnedEnnemies)
         {
-            var distanceToCheck = Vector2.Distance(unit.transform.position, ennemy.transform.position);
-            if (distanceToCheck < distance)
+            if (ennemy != null)
             {
-                distance = distanceToCheck;
-                closestEnnemy = ennemy;
+                var distanceToCheck = Vector2.Distance(unit.transform.position, ennemy.transform.position);
+                if (distanceToCheck < distance)
+                {
+                    distance = distanceToCheck;
+                    closestEnnemy = ennemy;
+                }
             }
+
         }
 
         return closestEnnemy;

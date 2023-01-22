@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerBehaviour : MonoBehaviour
 {
@@ -22,6 +23,9 @@ public class PlayerBehaviour : MonoBehaviour
                         unit.Attack();
                     }
                 }
+                break;
+            case "RESTART":
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
                 break;
             default:
                 break;
