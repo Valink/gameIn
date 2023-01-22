@@ -38,7 +38,7 @@ SubShader{
 
 	Lighting Off
 	Cull [_CullMode]
-	ZTest [unity_GUIZTestMode]
+	ZTest [Unity_GUIZTestMode]
 	ZWrite Off
 	Fog { Mode Off }
 	Blend SrcAlpha OneMinusSrcAlpha
@@ -49,8 +49,8 @@ SubShader{
 		#pragma vertex vert
 		#pragma fragment frag
 
-		#pragma multi_compile __ UNITY_UI_CLIP_RECT
-		#pragma multi_compile __ UNITY_UI_ALPHACLIP
+		#pragma multi_compile __ Unity_UI_CLIP_RECT
+		#pragma multi_compile __ Unity_UI_ALPHACLIP
 
 
 		#include "UnityCG.cginc"
@@ -109,7 +109,7 @@ SubShader{
 			OUT.texcoord0 = v.texcoord0;
 			OUT.texcoord1 = TRANSFORM_TEX(UnpackUV(v.texcoord1), _FaceTex);
 			float2 pixelSize = vPosition.w;
-			pixelSize /= abs(float2(_ScreenParams.x * UNITY_MATRIX_P[0][0], _ScreenParams.y * UNITY_MATRIX_P[1][1]));
+			pixelSize /= abs(float2(_ScreenParams.x * Unity_MATRIX_P[0][0], _ScreenParams.y * Unity_MATRIX_P[1][1]));
 
 			// Clamp _ClipRect to 16bit.
 			float4 clampedRect = clamp(_ClipRect, -2e10, 2e10);
@@ -124,12 +124,12 @@ SubShader{
 			color = fixed4 (tex2D(_FaceTex, IN.texcoord1).rgb * IN.color.rgb, IN.color.a * color.a);
 
 			// Alternative implementation to UnityGet2DClipping with support for softness.
-			#if UNITY_UI_CLIP_RECT
+			#if Unity_UI_CLIP_RECT
 				half2 m = saturate((_ClipRect.zw - _ClipRect.xy - abs(IN.mask.xy)) * IN.mask.zw);
 				color *= m.x * m.y;
 			#endif
 
-			#if UNITY_UI_ALPHACLIP
+			#if Unity_UI_ALPHACLIP
 				clip(color.a - 0.001);
 			#endif
 

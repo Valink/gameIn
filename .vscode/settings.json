@@ -1,4 +1,4 @@
-﻿{
+{
     "files.exclude":
     {
         "**/.DS_Store":true,
@@ -9,7 +9,7 @@
         "**/*.suo":true,
         "**/*.user":true,
         "**/*.userprefs":true,
-        "**/*.unityproj":true,
+        "**/*.Unityproj":true,
         "**/*.dll":true,
         "**/*.exe":true,
         "**/*.pdf":true,
@@ -41,7 +41,7 @@
         "**/*.mat":true,
         "**/*.meta":true,
         "**/*.prefab":true,
-        "**/*.unity":true,
+        "**/*.Unity":true,
         "build/":true,
         "Build/":true,
         "Library/":true,

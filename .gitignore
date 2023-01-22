@@ -33,7 +33,7 @@
 ExportedObj/
 .consulo/
 *.csproj
-*.unityproj
+*.Unityproj
 *.sln
 *.suo
 *.tmp
@@ -58,7 +58,7 @@ sysinfo.txt
 # Builds
 *.apk
 *.aab
-*.unitypackage
+*.Unitypackage
 *.app
 
 # Crashlytics generated file

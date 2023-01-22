@@ -1,5 +1,5 @@
 ﻿struct vertex_t {
-    UNITY_VERTEX_INPUT_INSTANCE_ID
+    Unity_VERTEX_INPUT_INSTANCE_ID
     float4	position		: POSITION;
     float3	normal			: NORMAL;
     float4	color			: COLOR;
@@ -8,8 +8,8 @@
 };
 
 struct pixel_t {
-    UNITY_VERTEX_INPUT_INSTANCE_ID
-    UNITY_VERTEX_OUTPUT_STEREO
+    Unity_VERTEX_INPUT_INSTANCE_ID
+    Unity_VERTEX_OUTPUT_STEREO
     float4	position		: SV_POSITION;
     float4	faceColor		: COLOR;
     float4	outlineColor	: COLOR1;
@@ -30,10 +30,10 @@ pixel_t VertShader(vertex_t input)
 {
     pixel_t output;
 
-    UNITY_INITIALIZE_OUTPUT(pixel_t, output);
-    UNITY_SETUP_INSTANCE_ID(input);
-    UNITY_TRANSFER_INSTANCE_ID(input, output);
-    UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(output);
+    Unity_INITIALIZE_OUTPUT(pixel_t, output);
+    Unity_SETUP_INSTANCE_ID(input);
+    Unity_TRANSFER_INSTANCE_ID(input, output);
+    Unity_INITIALIZE_VERTEX_OUTPUT_STEREO(output);
 
     float bold = step(input.texcoord1.y, 0);
 
@@ -51,7 +51,7 @@ pixel_t VertShader(vertex_t input)
     float2 maskUV = (vert.xy - clampedRect.xy) / (clampedRect.zw - clampedRect.xy);
 
     float4 color = input.color;
-    #if (FORCE_LINEAR && !UNITY_COLORSPACE_GAMMA)
+    #if (FORCE_LINEAR && !Unity_COLORSPACE_GAMMA)
     color = SRGBToLinear(input.color);
     #endif
 
@@ -74,7 +74,7 @@ pixel_t VertShader(vertex_t input)
     output.param = float4(0.5 - weight, 1.3333 * _GradientScale * (_Sharpness + 1) / _TextureWidth, _OutlineWidth * _ScaleRatioA * 0.5, 0);
 
     float2 mask = float2(0, 0);
-    #if UNITY_UI_CLIP_RECT
+    #if Unity_UI_CLIP_RECT
     mask = vert.xy * 2 - clampedRect.xy - clampedRect.zw;
     #endif
     output.mask = mask;
@@ -95,7 +95,7 @@ pixel_t VertShader(vertex_t input)
 
 float4 PixShader(pixel_t input) : SV_Target
 {
-    UNITY_SETUP_INSTANCE_ID(input);
+    Unity_SETUP_INSTANCE_ID(input);
 
     float d = tex2D(_MainTex, input.texcoord0.xy).a;
 
@@ -139,7 +139,7 @@ float4 PixShader(pixel_t input) : SV_Target
     #endif
 
     // Alternative implementation to UnityGet2DClipping with support for softness
-    #if UNITY_UI_CLIP_RECT
+    #if Unity_UI_CLIP_RECT
     float2 maskZW = 0.25 / (0.25 * half2(_MaskSoftnessX, _MaskSoftnessY) + (1 / scale));
     float2 m = saturate((_ClipRect.zw - _ClipRect.xy - abs(input.mask.xy)) * maskZW);
     faceColor *= m.x * m.y;
@@ -149,7 +149,7 @@ float4 PixShader(pixel_t input) : SV_Target
     faceColor *= input.texcoord2.z;
     #endif
 
-    #if UNITY_UI_ALPHACLIP
+    #if Unity_UI_ALPHACLIP
     clip(faceColor.a - 0.001);
     #endif
 

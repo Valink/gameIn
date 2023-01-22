@@ -4,10 +4,9 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Sonde
+  - Ennemy
   - Satellite
-  - Enemy
-  - stopZone
+  - StopUnitsZone
   layers:
   - Default
   - TransparentFX

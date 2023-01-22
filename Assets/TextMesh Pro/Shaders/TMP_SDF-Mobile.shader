@@ -75,7 +75,7 @@ SubShader {
 	ZWrite Off
 	Lighting Off
 	Fog { Mode Off }
-	ZTest [unity_GUIZTestMode]
+	ZTest [Unity_GUIZTestMode]
 	Blend One OneMinusSrcAlpha
 	ColorMask [_ColorMask]
 
@@ -86,15 +86,15 @@ SubShader {
 		#pragma shader_feature __ OUTLINE_ON
 		#pragma shader_feature __ UNDERLAY_ON UNDERLAY_INNER
 
-		#pragma multi_compile __ UNITY_UI_CLIP_RECT
-		#pragma multi_compile __ UNITY_UI_ALPHACLIP
+		#pragma multi_compile __ Unity_UI_CLIP_RECT
+		#pragma multi_compile __ Unity_UI_ALPHACLIP
 
 		#include "UnityCG.cginc"
 		#include "UnityUI.cginc"
 		#include "TMPro_Properties.cginc"
 
 		struct vertex_t {
-			UNITY_VERTEX_INPUT_INSTANCE_ID
+			Unity_VERTEX_INPUT_INSTANCE_ID
 			float4	vertex			: POSITION;
 			float3	normal			: NORMAL;
 			fixed4	color			: COLOR;
@@ -103,8 +103,8 @@ SubShader {
 		};
 
 		struct pixel_t {
-			UNITY_VERTEX_INPUT_INSTANCE_ID
-			UNITY_VERTEX_OUTPUT_STEREO
+			Unity_VERTEX_INPUT_INSTANCE_ID
+			Unity_VERTEX_OUTPUT_STEREO
 			float4	vertex			: SV_POSITION;
 			fixed4	faceColor		: COLOR;
 			fixed4	outlineColor	: COLOR1;
@@ -122,10 +122,10 @@ SubShader {
 		{
 			pixel_t output;
 
-			UNITY_INITIALIZE_OUTPUT(pixel_t, output);
-			UNITY_SETUP_INSTANCE_ID(input);
-			UNITY_TRANSFER_INSTANCE_ID(input, output);
-			UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(output);
+			Unity_INITIALIZE_OUTPUT(pixel_t, output);
+			Unity_SETUP_INSTANCE_ID(input);
+			Unity_TRANSFER_INSTANCE_ID(input, output);
+			Unity_INITIALIZE_VERTEX_OUTPUT_STEREO(output);
 
 			float bold = step(input.texcoord1.y, 0);
 
@@ -135,11 +135,11 @@ SubShader {
 			float4 vPosition = UnityObjectToClipPos(vert);
 
 			float2 pixelSize = vPosition.w;
-			pixelSize /= float2(_ScaleX, _ScaleY) * abs(mul((float2x2)UNITY_MATRIX_P, _ScreenParams.xy));
+			pixelSize /= float2(_ScaleX, _ScaleY) * abs(mul((float2x2)Unity_MATRIX_P, _ScreenParams.xy));
 
 			float scale = rsqrt(dot(pixelSize, pixelSize));
 			scale *= abs(input.texcoord1.y) * _GradientScale * (_Sharpness + 1);
-			if(UNITY_MATRIX_P[3][3] == 0) scale = lerp(abs(scale) * (1 - _PerspectiveFilter), scale, abs(dot(UnityObjectToWorldNormal(input.normal.xyz), normalize(WorldSpaceViewDir(vert)))));
+			if(Unity_MATRIX_P[3][3] == 0) scale = lerp(abs(scale) * (1 - _PerspectiveFilter), scale, abs(dot(UnityObjectToWorldNormal(input.normal.xyz), normalize(WorldSpaceViewDir(vert)))));
 
 			float weight = lerp(_WeightNormal, _WeightBold, bold) / 4.0;
 			weight = (weight + _FaceDilate) * _ScaleRatioA * 0.5;
@@ -195,7 +195,7 @@ SubShader {
 		// PIXEL SHADER
 		fixed4 PixShader(pixel_t input) : SV_Target
 		{
-			UNITY_SETUP_INSTANCE_ID(input);
+			Unity_SETUP_INSTANCE_ID(input);
 
 			half d = tex2D(_MainTex, input.texcoord0.xy).a * input.param.x;
 			half4 c = input.faceColor * saturate(d - input.param.w);
@@ -217,7 +217,7 @@ SubShader {
 			#endif
 
 			// Alternative implementation to UnityGet2DClipping with support for softness.
-			#if UNITY_UI_CLIP_RECT
+			#if Unity_UI_CLIP_RECT
 			half2 m = saturate((_ClipRect.zw - _ClipRect.xy - abs(input.mask.xy)) * input.mask.zw);
 			c *= m.x * m.y;
 			#endif
@@ -226,7 +226,7 @@ SubShader {
 			c *= input.texcoord1.z;
 			#endif
 
-			#if UNITY_UI_ALPHACLIP
+			#if Unity_UI_ALPHACLIP
 			clip(c.a - 0.001);
 			#endif
 
