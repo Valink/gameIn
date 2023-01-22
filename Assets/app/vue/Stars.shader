@@ -10,7 +10,13 @@ Shader "Unlit/Stars"
     }
     SubShader
     {
-        Tags { "RenderType"="Opaque" }
+        Tags { "RenderQueue" = "Transparent" "IgnoreProjector" = "True" "RenderType" = "Transparent" }
+        Blend SrcAlpha OneMinusSrcAlpha
+        ColorMask RGB
+        Cull Off
+        Lighting Off
+        ZWrite Off
+        ZTest LEqual
         LOD 100
 
         Pass
@@ -103,7 +109,7 @@ Shader "Unlit/Stars"
             fixed4 frag(v2f i) : SV_Target
             {
                 float2 pt = i.uv * _StarDensity;
-                fixed4 col = lerp(fixed4(0, 0, 0, 1), _StarColor, fun(pt));
+                fixed4 col = lerp(fixed4(0, 0, 0, 0), _StarColor, fun(pt));
 
                 // apply fog
                 UNITY_APPLY_FOG(i.fogCoord, col);

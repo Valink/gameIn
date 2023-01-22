@@ -78,9 +78,9 @@ public class SpawnerBehaviour : MonoBehaviour
 
     private void SpawnEntity(Vector2 position)
     {
-        var isEnnemy = UnityEngine.Random.Range(0, 3) < 2;
+        var isUnit = UnityEngine.Random.Range(0, 3) < 2;
 
-        if (isEnnemy)
+        if (!isUnit)
         {
             var e = Instantiate(ennemyPrefab, ennemies);
             spawnedEnnemies.Add(e);
