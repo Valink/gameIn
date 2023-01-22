@@ -30,8 +30,9 @@ public class EnnemyBehaviour : MonoBehaviour
 
     public void Destroy()
     {
-        audioSourceDie.Play();
+        AudioManager.instance.PlayExplode();
+        Instantiate(explosionFX, transform.position, Quaternion.identity); // TODO Julien fix
         Destroy(gameObject); // TODO destroy after animation and sound
-        // Instantiate(explosionFX, transform.position, Quaternion.identity); // TODO Julien fix
+        
     }
 }
