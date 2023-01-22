@@ -1,9 +1,14 @@
+using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class PlayerBehaviour : MonoBehaviour
 {
     [SerializeField] private List<UnitBehaviour> hiredUnits;
+
+    [SerializeField] private int health;
+    [SerializeField] private SpriteRenderer spriteRenderer;
 
     public void TriggerAction(string action)
     {
@@ -25,12 +30,33 @@ public class PlayerBehaviour : MonoBehaviour
 
     public void HireUnit(string UnitBehaviourName)
     {
-        var sb = SpawnerBehaviour.Instance;
-        var u = sb.GetUnitByName(UnitBehaviourName);
-        Debug.Log(u);
-        var ub = u.GetComponent<UnitBehaviour>();
-        Debug.Log(ub);
+        var ub = SpawnerBehaviour.Instance.GetUnitByName(UnitBehaviourName).GetComponent<UnitBehaviour>();
         hiredUnits.Add(ub);
         ub.JoinFirstTime();
+    }
+
+    internal void Hit()
+    {
+        health--;
+        SetVisualForHealth(health);
+    }
+
+    private void SetVisualForHealth(int health)
+    {
+        switch (health)
+        {
+            case 2:
+                spriteRenderer.color = Color.yellow;
+                break;
+            case 1:
+                spriteRenderer.color = Color.red;
+                break;
+            case 0:
+                // Instantiate(explosionFX, transform.position, Quaternion.identity); // TODO Julien
+                GameManager.Instance.GameOver();
+                break;
+            default:
+                break;
+        }
     }
 }

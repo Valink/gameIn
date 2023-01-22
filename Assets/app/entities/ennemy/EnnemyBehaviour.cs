@@ -18,6 +18,15 @@ public class EnnemyBehaviour : MonoBehaviour
     {
         NavigationHelper.MoveToward(transform, target.transform.position, speed);
     }
+    
+    private void OnTriggerEnter2D(Collider2D collided)
+    {
+        if (collided.tag == "Player")
+        {
+            collided.GetComponent<PlayerBehaviour>().Hit();
+            Destroy();
+        }
+    }
 
     public void Destroy()
     {

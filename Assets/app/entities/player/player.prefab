@@ -135,3 +135,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hiredUnits: []
+  health: 3
+  spriteRenderer: {fileID: 2163791952670748384}
