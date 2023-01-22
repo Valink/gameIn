@@ -17,7 +17,12 @@ public class SpawnerBehaviour : MonoBehaviour
 
     void Awake()
     {
-        Instance = this;
+        if (Instance == null) Instance = this;
+        
+    }
+
+    public void StartGame()
+    {
         StartCoroutine("SpawnEntities");
     }
 

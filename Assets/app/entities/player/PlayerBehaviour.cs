@@ -27,6 +27,11 @@ public class PlayerBehaviour : MonoBehaviour
             case "RESTART":
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
                 break;
+            case "START":
+                SpawnerBehaviour.Instance.StartGame();
+                LightManager.instance.StartGame();
+                GameManager.Instance.StartGame();
+                break;
             default:
                 break;
         }
