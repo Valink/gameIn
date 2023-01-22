@@ -1,19 +1,18 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class SpawnerBehaviour : MonoBehaviour
 {
-    [SerializeField] PlayerBehaviour player;
-    [SerializeField] Transform ennemies;
-    [SerializeField] GameObject ennemyPrefab;
-    [SerializeField] List<GameObject> spawnedEnnemies;
-    [SerializeField] Transform units;
-    [SerializeField] GameObject unitPrefab;
-    [SerializeField] List<GameObject> spawnedUnits;
-    [SerializeField] Camera gameCamera;
-    [SerializeField] TypedWordDetector keywordsDetector;
+    [SerializeField] private PlayerBehaviour player;
+    [SerializeField] private Transform ennemies;
+    [SerializeField] private GameObject ennemyPrefab;
+    [SerializeField] public List<GameObject> spawnedEnnemies;
+    [SerializeField] private Transform units;
+    [SerializeField] private GameObject unitPrefab;
+    [SerializeField] public List<GameObject> spawnedUnits;
+    [SerializeField] private Camera gameCamera;
+    [SerializeField] private TypedWordDetector keywordsDetector;
     [SerializeField] public static SpawnerBehaviour Instance;
 
     void Awake()

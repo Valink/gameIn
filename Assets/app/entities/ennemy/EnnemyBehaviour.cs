@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class EnnemyBehaviour : MonoBehaviour
 {
+    [SerializeField] AudioSource audioSourceDie;
     [SerializeField] GameObject target;
     [SerializeField] GameObject explosionFX;
     [SerializeField] float speed;
@@ -20,7 +21,8 @@ public class EnnemyBehaviour : MonoBehaviour
 
     public void Destroy()
     {
-        Instantiate(explosionFX, transform.position, Quaternion.identity);
-        Destroy(gameObject);
+        audioSourceDie.Play();
+        Destroy(gameObject); // TODO destroy after animation and sound
+        // Instantiate(explosionFX, transform.position, Quaternion.identity); // TODO Julien fix
     }
 }

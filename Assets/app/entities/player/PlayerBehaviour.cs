@@ -12,14 +12,17 @@ public class PlayerBehaviour : MonoBehaviour
             case "ATTACK":
                 foreach (UnitBehaviour unit in hiredUnits)
                 {
-                    unit.Attack();
+                    if (unit.state == UnitBehaviour.State.Hired)
+                    {
+                        unit.Attack();
+                    }
                 }
                 break;
             default:
                 break;
         }
     }
-    
+
     public void HireUnit(string UnitBehaviourName)
     {
         var sb = SpawnerBehaviour.Instance;
@@ -28,6 +31,6 @@ public class PlayerBehaviour : MonoBehaviour
         var ub = u.GetComponent<UnitBehaviour>();
         Debug.Log(ub);
         hiredUnits.Add(ub);
-        ub.Join();
+        ub.JoinFirstTime();
     }
 }

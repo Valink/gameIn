@@ -11,6 +11,6 @@ public class NavigationHelper
 
     public static void MoveToward(Transform transform, Vector3 targetPosition, float speed)
     {
-        transform.position = Vector3.Lerp(transform.position, targetPosition, speed * Time.deltaTime);
+        transform.position = Vector2.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
     }
 }
