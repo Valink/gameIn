@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -17,11 +18,17 @@ public class TypedWordDetector : MonoBehaviour
     void Awake()
     {
         input.onValueChanged.AddListener(OnValueChanged);
+        input.onDeselect.AddListener(Select);
     }
 
     void Start()
     {
-        input.Select();
+        Select(String.Empty);
+    }
+
+    private void Select(string _)
+    {
+        input.ActivateInputField();
     }
 
     private void OnValueChanged(string typedWord)
