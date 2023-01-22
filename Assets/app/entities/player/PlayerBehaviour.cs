@@ -34,8 +34,13 @@ public class PlayerBehaviour : MonoBehaviour
 
     public void HireUnit(string UnitBehaviourName)
     {
-        var ub = SpawnerBehaviour.Instance.GetUnitByName(UnitBehaviourName).GetComponent<UnitBehaviour>();
+        var sb = SpawnerBehaviour.Instance;
+        var u = sb.GetUnitByName(UnitBehaviourName);
+        sb.spawnedUnits.Remove(u);
+
+        var ub = u.GetComponent<UnitBehaviour>();
         hiredUnits.Add(ub);
+        
         ub.JoinFirstTime();
     }
 

@@ -107,6 +107,7 @@ public class UnitBehaviour : MonoBehaviour
 
     public void Join()
     {
+        nameText.gameObject.SetActive(false);
         state = State.Joining;
         NavigationHelper.LookToward(spriteGO.transform, master.transform.position);
     }
