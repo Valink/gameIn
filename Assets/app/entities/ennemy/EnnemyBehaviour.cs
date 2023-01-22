@@ -16,6 +16,8 @@ public class EnnemyBehaviour : MonoBehaviour
 
     public void Update()
     {
+        if (GameManager.Instance.GetGameOverState()) return;
+
         NavigationHelper.MoveToward(transform, target.transform.position, speed);
     }
     

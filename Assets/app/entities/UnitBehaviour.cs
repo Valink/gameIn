@@ -41,6 +41,8 @@ public class UnitBehaviour : MonoBehaviour
 
     void Update()
     {
+        if (GameManager.Instance.GetGameOverState()) return;
+
         switch (state)
         {
             case State.Deriving:
