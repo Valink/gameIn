@@ -81,7 +81,6 @@ class GameManager : MonoBehaviour
         placeholder.text = "MASH KEYBOARD !";
         MusicManager.instance.StartGame();
 
-
         gameOverVue.SetActive(false);
     }
 
