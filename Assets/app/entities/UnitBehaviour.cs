@@ -95,6 +95,8 @@ public class UnitBehaviour : MonoBehaviour
 
             target.GetComponent<EnnemyBehaviour>().Destroy();
             Destroy(gameObject);
+
+            GameManager.Instance.IncrementScore();
         }
     }
 

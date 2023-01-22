@@ -3,9 +3,9 @@ Shader "Unlit/Stars"
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
-        _StarColor("Star Color", Color) = (1, 1,  1, 1)
+        [HDR] _StarColor("Star Color", Color) = (1, 1,  1, 1)
         _StarDensity("Star Density", float) = 5
-        _BlinkingSpeed("Blinking Speed", Range(.001, .1)) = .05
+        _BlinkingSpeed("Blinking Speed", float) = .05
         _Brightness("Brightness", float) = 2
     }
     SubShader
@@ -94,7 +94,7 @@ Shader "Unlit/Stars"
             float _Brightness;
 
             float fun(float2 pt) {
-                return smoothstep(.94, .95, (1 - voronoi(pt, 8)) + cos(_Time.w + perlin(pt)) * sin(_Time.w + perlin(pt)) * _BlinkingSpeed) * _Brightness;
+                return smoothstep(.98, .99, (1 - voronoi(pt, 8)) + cos(_Time.w + perlin(pt)) * sin(_Time.w + perlin(pt)) * _BlinkingSpeed) * _Brightness;
             }
 
             v2f vert (appdata v)

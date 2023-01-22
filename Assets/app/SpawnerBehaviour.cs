@@ -39,7 +39,7 @@ public class SpawnerBehaviour : MonoBehaviour
 
             if (spawnCount % 10 == 0 && GameManager.Instance.Level < 10)
             {
-                GameManager.Instance.Level++;
+                GameManager.Instance.IncrementLevel();
             }
         }
     }
@@ -78,9 +78,9 @@ public class SpawnerBehaviour : MonoBehaviour
 
     private void SpawnEntity(Vector2 position)
     {
-        var isUnit = UnityEngine.Random.Range(0, 3) < 2;
-
-        if (!isUnit)
+        var isEnnemy = UnityEngine.Random.Range(0, 2) == 0;
+        
+        if (isEnnemy)
         {
             var e = Instantiate(ennemyPrefab, ennemies);
             spawnedEnnemies.Add(e);
@@ -102,8 +102,8 @@ public class SpawnerBehaviour : MonoBehaviour
 
     private string GetRandomSpaceName()
     {
-        int minLetterNumber = 0;
-        int maxLetterNumber = 50;
+        var minLetterNumber = 0;
+        var maxLetterNumber = 50;
 
         switch (GameManager.Instance.Level)
         {
